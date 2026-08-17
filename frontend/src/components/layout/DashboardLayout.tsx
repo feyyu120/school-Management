@@ -1,9 +1,21 @@
 import React from 'react';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
 
-export const DashboardLayout: React.FC = () => {
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+}
+
+export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
-    <div className="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
-      <h2 className="text-xl font-bold text-gray-800">DashboardLayout Component</h2>
+    <div className="min-h-screen bg-black text-white flex flex-col">
+      <Navbar />
+      <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 p-6 overflow-auto">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
