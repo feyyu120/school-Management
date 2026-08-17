@@ -1,0 +1,2 @@
+// useFetch module
+export {};

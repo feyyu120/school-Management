@@ -1,0 +1,2 @@
+// authApi module
+export {};

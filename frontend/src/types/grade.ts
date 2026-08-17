@@ -1,0 +1,2 @@
+// grade module
+export {};
