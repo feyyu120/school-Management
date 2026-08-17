@@ -14,6 +14,7 @@ import (
 	"backend/pkg/password"
 
 	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/cors"
 )
 
 func main() {
@@ -53,6 +54,13 @@ func main() {
 	app := fiber.New(fiber.Config{
 		AppName: "School Management System API v1",
 	})
+
+	// Add CORS middleware to support cross-origin requests from frontend (e.g. http://localhost:5174)
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		AllowMethods: []string{"GET", "POST", "HEAD", "PUT", "DELETE", "PATCH", "OPTIONS"},
+	}))
 
 	auth.RegisterRoutes(app, handler, cfg.JWTSecret)
 

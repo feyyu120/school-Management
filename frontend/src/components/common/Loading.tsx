@@ -2,8 +2,9 @@ import React from 'react';
 
 export const Loading: React.FC = () => {
   return (
-    <div className="p-4 rounded-lg bg-white shadow-sm border border-gray-100">
-      <h2 className="text-xl font-bold text-gray-800">Loading Component</h2>
+    <div className="flex flex-col items-center justify-center min-h-[200px] p-6 space-y-3">
+      <div className="w-8 h-8 border-2 border-[#1b2d53] border-t-white rounded-full animate-spin"></div>
+      <p className="text-sm text-neutral-400 font-medium">Loading...</p>
     </div>
   );
 };
