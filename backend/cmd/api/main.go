@@ -49,13 +49,14 @@ func main() {
 	// 1. Auth Module Setup
 	authRepo := auth.NewRepository(pool)
 
-	// Seed default admin account (admin@school.com / admin123) if no admin exists
-	adminPasswordHash, err := password.HashPassword("admin123")
-	if err == nil {
-		if err := authRepo.SeedAdminUserIfNone(ctx, "admin@school.com", adminPasswordHash); err != nil {
-			log.Printf("Notice: Admin seed check: %v", err)
+	// Seed default accounts (Admin, Teacher, Student) if missing
+	adminPasswordHash, _ := password.HashPassword("admin123")
+	userPasswordHash, _ := password.HashPassword("password123")
+	if adminPasswordHash != "" && userPasswordHash != "" {
+		if err := authRepo.SeedDefaultUsers(ctx, adminPasswordHash, userPasswordHash); err != nil {
+			log.Printf("Notice: Default user seeding: %v", err)
 		} else {
-			log.Println("Admin seed check complete (Default Admin: admin@school.com / admin123)")
+			log.Println("Default user seeding complete (Admin: admin@school.com, Teacher: snape@school.com, Student: harry@school.com)")
 		}
 	}
 

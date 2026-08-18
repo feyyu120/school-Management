@@ -21,6 +21,7 @@ type Repository interface {
 	GetPendingUsers(ctx context.Context) ([]*User, error)
 	UpdateUserStatus(ctx context.Context, userID string, status string) error
 	SeedAdminUserIfNone(ctx context.Context, defaultEmail, defaultPasswordHash string) error
+	SeedDefaultUsers(ctx context.Context, adminHash, defaultUserHash string) error
 }
 
 type repository struct {
@@ -284,5 +285,48 @@ func (r *repository) SeedAdminUserIfNone(ctx context.Context, defaultEmail, defa
 			return fmt.Errorf("failed to seed admin user: %w", err)
 		}
 	}
+	return nil
+}
+
+func (r *repository) SeedDefaultUsers(ctx context.Context, adminHash, defaultUserHash string) error {
+	// 1. Seed Admin
+	var adminCount int
+	if err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM users WHERE email = 'admin@school.com'`).Scan(&adminCount); err == nil && adminCount == 0 {
+		adminUUID := uuid.New().String()
+		q := `INSERT INTO users (id, full_name, email, password_hash, role, status, created_at, updated_at)
+		      VALUES ($1, 'System Administrator', 'admin@school.com', $2, 'admin', 'approved', NOW(), NOW())`
+		_, _ = r.db.Exec(ctx, q, adminUUID, adminHash)
+	}
+
+	// 2. Seed Default Teacher (snape@school.com / password123)
+	var teacherCount int
+	if err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM users WHERE email = 'snape@school.com'`).Scan(&teacherCount); err == nil && teacherCount == 0 {
+		tUserUUID := uuid.New().String()
+		tProfileUUID := uuid.New().String()
+		
+		qUser := `INSERT INTO users (id, full_name, email, password_hash, role, status, created_at, updated_at)
+		          VALUES ($1, 'Severus Snape', 'snape@school.com', $2, 'teacher', 'approved', NOW(), NOW())`
+		if _, err := r.db.Exec(ctx, qUser, tUserUUID, defaultUserHash); err == nil {
+			qTeacher := `INSERT INTO teachers (id, user_id, teacher_id, subject, created_at)
+			             VALUES ($1, $2, 'TCH-001', 'Potions', NOW())`
+			_, _ = r.db.Exec(ctx, qTeacher, tProfileUUID, tUserUUID)
+		}
+	}
+
+	// 3. Seed Default Student (harry@school.com / password123)
+	var studentCount int
+	if err := r.db.QueryRow(ctx, `SELECT COUNT(*) FROM users WHERE email = 'harry@school.com'`).Scan(&studentCount); err == nil && studentCount == 0 {
+		sUserUUID := uuid.New().String()
+		sProfileUUID := uuid.New().String()
+
+		qUser := `INSERT INTO users (id, full_name, email, password_hash, role, status, created_at, updated_at)
+		          VALUES ($1, 'Harry Potter', 'harry@school.com', $2, 'student', 'approved', NOW(), NOW())`
+		if _, err := r.db.Exec(ctx, qUser, sUserUUID, defaultUserHash); err == nil {
+			qStudent := `INSERT INTO students (id, user_id, student_id, grade, class, created_at)
+			              VALUES ($1, $2, 'STU-001', 'Grade 10', 'Class A', NOW())`
+			_, _ = r.db.Exec(ctx, qStudent, sProfileUUID, sUserUUID)
+		}
+	}
+
 	return nil
 }
