@@ -19,9 +19,11 @@ func RegisterRoutes(app *fiber.App, handler *Handler, jwtSecret string) {
 	// Student Report (Student or Admin)
 	api.Get("/student/report", authMiddleware, handler.GetStudentReport)
 
-	// Admin Users Management Endpoints
+	// Students List (Accessible by Admin and Teacher)
+	api.Get("/admin/students", authMiddleware, middleware.RequireRole("admin", "teacher"), handler.GetStudents)
+
+	// Admin-only Management Endpoints
 	adminGroup := api.Group("/admin", authMiddleware, middleware.RequireRole("admin"))
 	adminGroup.Get("/dashboard", handler.GetAdminDashboard)
-	adminGroup.Get("/students", handler.GetStudents)
 	adminGroup.Get("/teachers", handler.GetTeachers)
 }
