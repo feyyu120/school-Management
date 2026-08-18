@@ -7,7 +7,6 @@ A full-stack School Management System built with a **Go (Fiber 3) + PostgreSQL**
 
 ### 🌐 Live Deployment Links
 - **Frontend (Vercel)**: [https://school-management-ten-self.vercel.app/](https://school-management-ten-self.vercel.app/)
-- **Backend API (Render)**: [https://school-management-eedf.onrender.com/api/v1](https://school-management-eedf.onrender.com/api/v1)
 
 ---
 
