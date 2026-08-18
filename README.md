@@ -2,6 +2,13 @@
 
 A full-stack School Management System built with a **Go (Fiber 3) + PostgreSQL** REST API backend and a **React + TypeScript + Tailwind CSS** dark-themed frontend.
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://school-management-ten-self.vercel.app/)
+
+
+### 🌐 Live Deployment Links
+- **Frontend (Vercel)**: [https://school-management-ten-self.vercel.app/](https://school-management-ten-self.vercel.app/)
+- **Backend API (Render)**: [https://school-management-eedf.onrender.com/api/v1](https://school-management-eedf.onrender.com/api/v1)
+
 ---
 
 ## 🌟 Tech Stack
