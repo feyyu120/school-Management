@@ -20,14 +20,10 @@ RESTful API backend for the School Management System written in **Go 1.22+**, **
 Create a `.env` file in `backend/`:
 
 ```env
-PORT=8080
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_NAME=school_db
-DB_SSLMODE=disable
-JWT_SECRET=super_secret_jwt_key_change_me
+DB_URL="postgresql://username:password@localhost:5432/school_db?sslmode=disable"
+JWT_SECRET="your-secret-key-here"
+PORT="8080"
+JWT_EXPIRES_IN="24h"
 ```
 
 ---
