@@ -29,7 +29,6 @@ school-Management/
 ├── backend/                  # Go Fiber 3 Backend API
 │   ├── cmd/api/main.go       # Server entrypoint
 │   ├── internal/             # Application logic modules
-│   │   ├── admin/            # Admin stats & user approvals
 │   │   ├── admissions/       # Admissions CRUD
 │   │   ├── announcements/    # Announcements CRUD
 │   │   ├── attendance/       # Attendance tracking
