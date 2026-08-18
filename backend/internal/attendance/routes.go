@@ -9,14 +9,13 @@ import (
 func RegisterRoutes(app *fiber.App, handler *Handler, jwtSecret string) {
 	api := app.Group("/api/v1/attendance", middleware.RequireAuth(jwtSecret))
 
-	// Teacher Routes
-	teacherMiddleware := middleware.RequireRole("teacher")
-	api.Post("/", teacherMiddleware, handler.CreateAttendance)
-	api.Put("/:id", teacherMiddleware, handler.UpdateAttendance)
-	api.Get("/my-students", teacherMiddleware, handler.GetTeacherStudentsAttendance)
+	// Teacher & Admin Routes
+	teacherOrAdminMiddleware := middleware.RequireRole("teacher", "admin")
+	api.Post("/", teacherOrAdminMiddleware, handler.CreateAttendance)
+	api.Put("/:id", teacherOrAdminMiddleware, handler.UpdateAttendance)
+	api.Get("/my-students", teacherOrAdminMiddleware, handler.GetTeacherStudentsAttendance)
 
 	// Teacher or Admin View Student Attendance
-	teacherOrAdminMiddleware := middleware.RequireRole("teacher", "admin")
 	api.Get("/student/:studentId", teacherOrAdminMiddleware, handler.GetStudentAttendance)
 
 	// Student View Own Attendance
