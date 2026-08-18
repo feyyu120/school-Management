@@ -56,6 +56,24 @@ go build -o bin/api cmd/api/main.go
 
 ---
 
+## 🌐 Deploying to Render
+
+### Option A: Render Dashboard Settings (Manual Web Service)
+1. **Root Directory**: `backend`
+2. **Environment**: `Go`
+3. **Build Command**: `go build -o api ./cmd/api`
+4. **Start Command**: `./api`
+5. **Environment Variables**:
+   - `DB_URL`: `postgresql://<user>:<password>@<host>/<database>?sslmode=require`
+   - `JWT_SECRET`: `<your-secure-jwt-secret>`
+   - `JWT_EXPIRES_IN`: `24h`
+   - `PORT`: `10000` (or leave default for Render)
+
+### Option B: Render Blueprint (`render.yaml`)
+A `render.yaml` file is included in the project root. Connect your repository to Render Blueprints for automatic deployment.
+
+---
+
 ## 📡 API Endpoints Overview
 
 ### **Auth & Profile (`/api/v1/auth`, `/api/v1/profile`)**
