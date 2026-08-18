@@ -69,14 +69,10 @@ Run the migration script located at `backend/migrations/000001_init_schema.up.sq
    ```
 2. Create or verify your `.env` file:
    ```env
-   PORT=8080
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USER=postgres
-   DB_PASSWORD=postgres
-   DB_NAME=school_db
-   DB_SSLMODE=disable
-   JWT_SECRET=super_secret_jwt_key_change_me
+   DB_URL="postgresql://username:password@localhost:5432/school_db?sslmode=disable"
+JWT_SECRET="your-secret-key-here"
+PORT="8080"
+JWT_EXPIRES_IN="24h"
    ```
 3. Run the backend server:
    ```bash
